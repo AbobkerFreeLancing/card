@@ -10,6 +10,8 @@
 | :--- | :--- |
 | [index.php](file:///c:/laragon/www/cerd/index.php) | التطبيق التفاعلي الكامل: معاينة البطاقة (`الأمامي` / `الخلفي` / `الوجهان معاً` / `عرض 3D قابل للقلب`)، لوحة تعديل البيانات والتوقيع، تصدير `PNG` عبر Canvas، ونافذة طباعة `A4`. |
 | [print4.php](file:///c:/laragon/www/cerd/print4.php) | قالب طباعة ثابت خالٍ من الأزرار وJavaScript يعرض `4` بطاقات (`8` أوجه) على صفحة `A4` بالطول، قابلة للتعديل المباشر من مصفوفتي `$shared` و`$cards` في أعلى الملف. |
+| [database.php](file:///c:/laragon/www/cerd/config/database.php) | ملف إعداد والاتصال بقاعدة البيانات عبر PHP `PDO` بترميز `utf8mb4_unicode_ci` مع دعم المتغيرات البيئية أو `database.local.php`. |
+| [migrate.php](file:///c:/laragon/www/cerd/database/migrate.php) | أداة CLI لتنفيذ ملفات الترحيل SQL عبر اتصال [database.php](file:///c:/laragon/www/cerd/config/database.php). |
 | [001_create_id_card_schema.sql](file:///c:/laragon/www/cerd/database/migrations/001_create_id_card_schema.sql) | ملف ترحيل SQL لإنشاء قاعدة البيانات `cerd_cards` بترميز `utf8mb4_unicode_ci` مع فصل البيانات الثابتة للقالب عن البيانات الديناميكية للبطاقات وسجل دفعات الطباعة. |
 | `Gemini_Generated_Image_lgfsmalgfsmalgfs.jpg` | الصورة المرجعية الأصلية للتصميم. |
 
@@ -56,7 +58,11 @@
 
 ### تشغيل ملف الترحيل في Laragon
 1. تأكد من تشغيل خدمة **MySQL** من لوحة تحكم **Laragon**.
-2. نفّذ الأمر التالي في PowerShell:
+2. نفّذ الترحيل عبر أداة PHP:
+   ```powershell
+   php c:\laragon\www\cerd\database\migrate.php
+   ```
+   أو مباشرةً عبر عميل MySQL:
    ```powershell
    & "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" -u root < "c:\laragon\www\cerd\database\migrations\001_create_id_card_schema.sql"
    ```
