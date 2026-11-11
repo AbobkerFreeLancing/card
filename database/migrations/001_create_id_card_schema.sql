@@ -271,46 +271,7 @@ INSERT INTO `departments` (`dept_code`, `dept_name`, `is_active`)
 VALUES ('IT-COM', 'إدارة تقنية المعلومات والاتصالات', 1)
 ON DUPLICATE KEY UPDATE `dept_code` = VALUES(`dept_code`);
 
-INSERT INTO `cards` (
-    `template_id`,
-    `department_id`,
-    `serial_number`,
-    `is_serial_custom`,
-    `holder_name`,
-    `department_name`,
-    `job_title`,
-    `phone_number`,
-    `issue_date_label`,
-    `qr_payload`,
-    `status`
-)
-SELECT
-    ct.id,
-    d.id,
-    'UHS-2026-745200',
-    0,
-    'أحمد محمد علي',
-    'إدارة تقنية المعلومات والاتصالات',
-    'مبرمج أنظمة',
-    '٠١٢٣٤٥٦٧٨٩',
-    '٢٠٢٦',
-    CONCAT(
-        'الرقم: UHS-2026-745200\n',
-        'الجهة: جامعة العلوم الصحية\n',
-        'الاسم: أحمد محمد علي\n',
-        'الإدارة: إدارة تقنية المعلومات والاتصالات\n',
-        'الوظيفة: مبرمج أنظمة\n',
-        'الهاتف: ٠١٢٣٤٥٦٧٨٩\n',
-        'الإصدار: ٢٠٢٦'
-    ),
-    'active'
-FROM `card_templates` ct
-LEFT JOIN `departments` d ON d.dept_code = 'IT-COM'
-WHERE ct.template_code = 'uhs-default'
-LIMIT 1
-ON DUPLICATE KEY UPDATE
-    `department_name` = VALUES(`department_name`),
-    `updated_at`      = CURRENT_TIMESTAMP;
+-- ملاحظة: تبدأ جداول البطاقات (cards) فارغة دون بيانات تجريبية، وتُحفظ فيها البطاقات الفعلية عند الإضافة أو الطباعة.
 
 INSERT INTO `schema_migrations` (`version`, `description`)
 VALUES ('001_create_id_card_schema', 'إنشاء جداول القوالب الثابتة والبيانات الديناميكية للبطاقات وسجل الطباعة')
